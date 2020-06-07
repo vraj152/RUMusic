@@ -21,5 +21,23 @@ def generateRecommend():
     recommendations = hp.getRecommendations(featureVector,"fromProfile",50,"")
     return json.dumps(recommendations)
 
+@app.route('/getmp3url', methods=['GET'])
+def getMP3URL():
+    response = {}
+    artist = request.args.get('artist')
+    songInput = request.args.get('input')
+    songId = request.args.get('songid')
+    
+    response["url"] = hp.getMP3URL(songInput, artist)
+    response["data"] = hp.getInformationFromID(songId)
+    
+    return json.dumps(response)
+
+@app.route('/recommendByTrack', methods=['GET'])
+def recommendByTrack():
+    songId = request.args.get("input")
+    response = hp.getRecommendations([], "fromTrackID", 15, songId)
+    return json.dumps(response)
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')

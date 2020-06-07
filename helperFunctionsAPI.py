@@ -24,7 +24,6 @@ def getRecommendations(featureVector, way, K, trackId):
             featureVector[i] = float(featureVector[i])
 
     recommendations = knn.getKNN(item_profile, way, K, trackId, featureVector)
-    print(recommendations)
     response = {}
     for eachItem in recommendations.items():
         response[eachItem[0]] = getInformationFromID(eachItem[0])
@@ -44,9 +43,8 @@ def getInformationFromID(trackID):
     
     return temp
 
-#%%
-def getMP3URL(songName):
-    youtubeLink = "https://www.youtube.com" + gt.getYouTubeLink(songName)
+def getMP3URL(songName, artist):
+    youtubeLink = "https://www.youtube.com" + gt.getYouTubeLink(songName, artist)
     ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s'})
     ydl.add_default_info_extractors()
 
@@ -60,6 +58,4 @@ def getMP3URL(songName):
         if format['ext'] == 'm4a':
             audio_url = format['url']
         
-    print(audio_url)
-    
-getMP3URL("tu hi he aashiqui")
+    return audio_url
